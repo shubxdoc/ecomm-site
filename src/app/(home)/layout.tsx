@@ -1,20 +1,25 @@
 import Container from "@/components/Container";
 import { Navbar, NavLink } from "@/components/Navbar";
-import { SignedIn, UserButton } from "@clerk/nextjs";
+import { Button } from "@/components/ui/button";
+import { checkRole } from "@/utils/roles";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 
 export const dynamic = "force-dynamic";
 
-export default function layout({
+export default async function Layout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  const isAdmin = await checkRole("admin");
+
   return (
     <>
       <Navbar>
         <NavLink href="/">Home</NavLink>
-        <NavLink href="/admin">Dashboard</NavLink>
-        <NavLink href="/admin/products">Products</NavLink>
-        <NavLink href="/admin/customers">Customers</NavLink>
-        <NavLink href="/admin/sales">Sales</NavLink>
+        <NavLink href="/products">Products</NavLink>
+        <NavLink href="/orders">My Orders</NavLink>
+        {isAdmin && <NavLink href="/admin">Admin</NavLink>}
         <span className="ml-5 h-9">
           <SignedIn>
             <UserButton
@@ -28,6 +33,11 @@ export default function layout({
               }}
             />
           </SignedIn>
+          <SignedOut>
+            <SignInButton>
+              <Button variant="secondary">Sign In</Button>
+            </SignInButton>
+          </SignedOut>
         </span>
       </Navbar>
       <Container className="py-10">{children}</Container>

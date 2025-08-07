@@ -1,23 +1,16 @@
-import { NextRequest, NextResponse } from "next/server";
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-export default async function middleware(req: NextRequest) {
-  const auth = await isAuth(req);
+const isProtectedRoute = createRouteMatcher(["/admin(.*)"]);
 
-  if (!auth) {
-    return new NextResponse("Unauthorized", {
-      status: 401,
-      headers: { "WWW-Authenticate": "Basic" },
-    });
-  }
-}
-
-async function isAuth(req: NextRequest) {
-  return Promise.resolve(false);
-}
+export default clerkMiddleware(async (auth, req) => {
+  if (isProtectedRoute(req)) await auth.protect();
+});
 
 export const config = {
   matcher: [
-    // Always run for Admin routes
-    "/admin/:path*",
+    // Skip Next.js internals and all static files, unless found in search params
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    // Always run for API routes
+    "/(api|trpc)(.*)",
   ],
 };

@@ -1,7 +1,8 @@
-import Container from "@/components/Container";
 import { db } from "@/lib/db";
 import { formatCurrency, formatNumber } from "@/utils/formatters";
 import { DashboardCard, DashboardCardProps } from "./components/DashboardCard";
+import { redirect } from "next/navigation";
+import { checkRole } from "@/utils/roles";
 
 const getSalesData = async () => {
   try {
@@ -62,6 +63,11 @@ async function getProductData() {
 }
 
 export default async function AdminPage() {
+  const isAdmin = await checkRole("admin");
+  if (!isAdmin) {
+    redirect("/");
+  }
+
   const [salesData, userData, productData] = await Promise.all([
     getSalesData(),
     getUserData(),
