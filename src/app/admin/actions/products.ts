@@ -2,7 +2,6 @@
 
 import { db } from "@/lib/db";
 import { imagekit } from "@/lib/imagekit";
-import { revalidatePath } from "next/cache";
 import { notFound, redirect } from "next/navigation";
 import { flattenError, z } from "zod";
 
@@ -62,9 +61,6 @@ export const addProduct = async (prevState: any, formData: FormData) => {
     },
   });
 
-  revalidatePath("/");
-  revalidatePath("/products");
-
   redirect("/admin/products");
 };
 
@@ -73,9 +69,6 @@ export const toggleProductAvailability = async (
   isAvailableForPurchase: boolean
 ) => {
   await db.product.update({ where: { id }, data: { isAvailableForPurchase } });
-
-  revalidatePath("/");
-  revalidatePath("/products");
 };
 
 export const deleteProduct = async (id: string) => {
@@ -88,9 +81,6 @@ export const deleteProduct = async (id: string) => {
   if (fileId && imageId) await imagekit.bulkDeleteFiles([fileId, imageId]);
 
   await db.product.delete({ where: { id } });
-
-  revalidatePath("/");
-  revalidatePath("/products");
 };
 
 const editSchema = addSchema.extend({
@@ -166,9 +156,6 @@ export const updateProduct = async (
       imageId,
     },
   });
-
-  revalidatePath("/");
-  revalidatePath("/products");
 
   redirect("/admin/products");
 };
