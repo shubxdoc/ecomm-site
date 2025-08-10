@@ -1,3 +1,4 @@
+import { Hero } from "@/components/Hero";
 import { ProductCard, ProductCardSkeleton } from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
 import { db } from "@/lib/db";
@@ -24,7 +25,8 @@ const getMostPopularProducts = () => {
 
 export default function HomePage() {
   return (
-    <main className="space-y-12">
+    <main className="space-y-5">
+      <Hero />
       <ProductGridSection
         title="Most Popular"
         productsFetcher={getMostPopularProducts}
@@ -44,7 +46,7 @@ const ProductGridSection = async ({
   productsFetcher,
 }: ProductGridSectionProps) => {
   return (
-    <div className="space-y-4">
+    <div id="products" className="space-y-4">
       <div className="flex gap-4">
         <h2 className="text-3xl font-bold">{title}</h2>
         <Button variant="outline" asChild>
