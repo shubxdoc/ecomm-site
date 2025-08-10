@@ -6,8 +6,8 @@ Tech used: Next.js, Prisma, Postgres, ImageKit, Clerk, Resend
 Setup
 
 ```
-git clone
-git cd
+git clone https://github.com/shubxdoc/ecomm-site.git
+git cd ecomm-site
 pnpm install
 pnpm dev
 ```
