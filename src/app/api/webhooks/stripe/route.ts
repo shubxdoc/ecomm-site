@@ -48,9 +48,16 @@ export async function POST(req: NextRequest) {
       from: `Support <${process.env.SENDER_EMAIL}>`,
       to: email,
       subject: "Order Confirmation",
-      html: "<p>Congrats on sending your <strong>first email</strong>!</p>",
+      html: `
+  <h2 style="color: slate;">Order #${order.id}</h2>
+  <p>${order.createdAt.toDateString()} - $${(order.pricePaid / 100).toFixed(
+        2
+      )}</p>
+  <h3>${product.name}</h3>
+  <p>${product.description}</p>
+`,
     });
   }
 
-  return new NextResponse();
+  return NextResponse.json({ message: "Received" }, { status: 200 });
 }
