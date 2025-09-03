@@ -10,11 +10,13 @@ export default function layout({
   return (
     <>
       <Navbar>
-        <NavLink href="/">Home</NavLink>
-        <NavLink href="/admin">Dashboard</NavLink>
-        <NavLink href="/admin/products">Products</NavLink>
-        <NavLink href="/admin/users">Customers</NavLink>
-        <NavLink href="/admin/orders">Sales</NavLink>
+        <span className="space-x-4">
+          <NavLink label="Home" href="/" />
+          <NavLink label="Dashboard" href="/admin" />
+          <NavLink label="Products" href="/admin/products" />
+          <NavLink label="Customers" href="/admin/users" />
+          <NavLink label="Sales" href="/admin/orders" />
+        </span>
         <span className="ml-5 h-9">
           <SignedIn>
             <UserButton

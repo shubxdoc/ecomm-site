@@ -16,11 +16,14 @@ export default async function Layout({
   return (
     <>
       <Navbar>
-        <NavLink href="/">Home</NavLink>
-        <NavLink href="/products">Products</NavLink>
-        <NavLink href="/orders">My Orders</NavLink>
-        {isAdmin && <NavLink href="/admin">Admin</NavLink>}
-        <span className="ml-5 h-9">
+        <span className="space-x-4">
+          <NavLink label="Home" href="/" />
+          <NavLink label="Products" href="/products" />
+          <NavLink label="My Orders" href="/orders" />
+
+          {isAdmin && <NavLink label="Admin" href="/admin" />}
+        </span>
+        <span className="h-9">
           <SignedIn>
             <UserButton
               appearance={{
@@ -35,7 +38,9 @@ export default async function Layout({
           </SignedIn>
           <SignedOut>
             <SignInButton>
-              <Button variant="secondary">Sign In</Button>
+              <Button variant="secondary" className="rounded-full">
+                Sign In
+              </Button>
             </SignInButton>
           </SignedOut>
         </span>
